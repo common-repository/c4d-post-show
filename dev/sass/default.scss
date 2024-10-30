@@ -1,0 +1,111 @@
+.c4d-post-show {
+	.item {
+		.item-inner {
+			margin-bottom: 30px;
+			&:after {
+				content: '';
+				display: block;
+				clear: both;
+			}
+			.post-image {
+				float: left;
+				width: 33%;
+				max-width: 100px;
+				height: auto;
+				margin-right: 20px; 
+				img {
+					width: 100%;
+					height: auto;
+					margin: auto;
+					padding: 0;
+				}
+			}
+			.post-info {
+				float: left;
+				width: 54%;
+				.title {
+					margin: auto;
+					padding: 0;
+					font-size: 15px;
+					line-height: 22px;
+					color: #666;
+				}
+				.post-categories {
+					margin: auto;
+					padding: 0;
+					list-style: none;
+					li {
+						margin: auto;
+						padding: 0;
+						a {
+							font-size: 10px;
+							line-height: 22px;
+							text-transform: uppercase;
+							color: #999;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+@mixin breakpoint($point) {
+	@if $point == desktop {
+		@media (max-width: 1920px) { @content ; }
+	}
+	@else if $point == laptop {
+	 	@media (max-width: 1200px) { @content ; }
+	}
+	@else if $point == tablet {
+	 	@media (max-width: 1023px) { @content ; }
+	}
+	@else if $point == phablet {
+	 	@media (max-width: 768px)  { @content ; }
+	}
+	@else if $point == sixplus {
+	 	@media (max-width: 736px)  { @content ; }
+	}
+	@else if $point == mobileonly {
+	 	@media (max-width: 640px)  { @content ; }
+	}
+}
+@for $i from 1 through 12 {
+  	.c4d-post-show[data-cols="#{$i}"] {
+  		&:after {
+  			content: '';
+  			display: block;
+  			clear: both;
+  		}
+		.item {
+			width: 100% / $i;
+			float: left;
+			@for $b from 1 through 20 {
+				&:nth-child(#{$i * $b}) + .item {
+					clear: left;
+				}
+			}
+			@if $i >= 3 {
+				@include breakpoint(sixplus) {
+					width: (100% / 4);
+					float: left;
+					clear: none !important;
+					@for $b from 1 through 20 {
+						&:nth-child(#{4 * $b}) + .item {
+							clear: left !important;
+						}
+					}
+				}	
+				@include breakpoint(mobileonly) {
+					width: (100% / 1);
+					float: left;
+					clear: none !important;
+					@for $b from 1 through 20 {
+						&:nth-child(#{2 * $b}) + .item {
+							clear: left !important;
+						}
+					}
+				}			
+			}
+		}
+	}
+}
